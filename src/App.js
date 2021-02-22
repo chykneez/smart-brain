@@ -9,6 +9,7 @@ import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
 import Entry from './Components/Entry/Entry';
 import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
 import Login from './Components/Login/Login';
+import Register from './Components/Register/Register';
 
 const app = new Clarifai.App({ apiKey: '39f6a75609484f5da7c5bc7860d4ae48' });
 

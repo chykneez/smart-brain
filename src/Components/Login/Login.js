@@ -39,7 +39,12 @@ const Login = ({ onRouteChange }) => {
             />
           </div>
           <div className="lh-copy mt3">
-            <p className="f6 link dim black db pointer">Create Account</p>
+            <p
+              className="f6 link dim black db pointer"
+              onClick={() => onRouteChange('register')}
+            >
+              Create Account
+            </p>
           </div>
         </div>
       </main>
