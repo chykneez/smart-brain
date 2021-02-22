@@ -102,7 +102,7 @@ const App = () => {
   };
 
   const onRouteChange = (route) => {
-    setRoute('home');
+    setRoute(route);
   };
 
   return (
@@ -110,9 +110,7 @@ const App = () => {
       <Particles id="particles" params={particlesOptions} />
       <Navigation onRouteChange={onRouteChange} />
 
-      {route === 'login' ? (
-        <Login onRouteChange={onRouteChange} />
-      ) : (
+      {route === 'home' ? (
         <div>
           <Logo />
           <Entry />
@@ -122,6 +120,10 @@ const App = () => {
           />
           <FaceRecognition box={box} imageURL={imageURL} />
         </div>
+      ) : route === 'login' ? (
+        <Login onRouteChange={onRouteChange} />
+      ) : (
+        <Register onRouteChange={onRouteChange} />
       )}
     </div>
   );
