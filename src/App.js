@@ -8,6 +8,7 @@ import Logo from './Components/Logo/Logo';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
 import Entry from './Components/Entry/Entry';
 import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
+import Login from './Components/Login/Login';
 
 const app = new Clarifai.App({ apiKey: '39f6a75609484f5da7c5bc7860d4ae48' });
 
@@ -73,6 +74,7 @@ const App = () => {
 
   const onButtonSubmit = () => {
     setImageURL(input);
+
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, input)
       .then((response) => setFaceBox(getFaceBox(response)))
@@ -100,6 +102,7 @@ const App = () => {
   return (
     <div className="App">
       <Particles id="particles" params={particlesOptions} />
+      <Login />
       <Navigation />
       <Logo />
       <Entry />
