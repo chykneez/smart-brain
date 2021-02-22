@@ -69,6 +69,7 @@ const App = () => {
   const [imageURL, setImageURL] = useState('');
   const [box, setBox] = useState({});
   const [route, setRoute] = useState('login');
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const onInputChange = (event) => {
     setInput(event.target.value);
@@ -102,13 +103,15 @@ const App = () => {
   };
 
   const onRouteChange = (route) => {
+    if (route === 'home') setIsSignedIn(true);
+    else if (route === 'login' || route === 'register') setIsSignedIn(false);
     setRoute(route);
   };
 
   return (
     <div className="App">
       <Particles id="particles" params={particlesOptions} />
-      <Navigation onRouteChange={onRouteChange} />
+      <Navigation onRouteChange={onRouteChange} isSignedIn={isSignedIn} />
 
       {route === 'home' ? (
         <div>
