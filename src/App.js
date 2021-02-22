@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Particles from 'react-particles-js';
+import Clarifai from 'clarifai';
 import './App.css';
 
 import Navigation from './Components/Navigation/Navigation';
 import Logo from './Components/Logo/Logo';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
 import Entry from './Components/Entry/Entry';
+import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
+
+const app = new Clarifai.App({ apiKey: '39f6a75609484f5da7c5bc7860d4ae48' });
 
 const particlesOptions = {
   particles: {
@@ -59,13 +63,33 @@ const particlesOptions = {
 };
 
 const App = () => {
+  const [input, setInput] = useState('');
+
+  const onInputChange = (event) => {
+    console.log(event.target.value);
+  };
+
+  const onButtonSubmit = () => {
+    console.log('click');
+    app.models.predict('https://samples.clarifai.com/face-det.jpg').then(
+      function (response) {
+        console.log(response);
+      },
+      function (error) {}
+    );
+  };
+
   return (
     <div className="App">
       <Particles id="particles" params={particlesOptions} />
       <Navigation />
       <Logo />
       <Entry />
-      <ImageLinkForm />
+      <ImageLinkForm
+        onInputChange={onInputChange}
+        onButtonSubmit={onButtonSubmit}
+      />
+      <FaceRecognition />
     </div>
   );
 };
