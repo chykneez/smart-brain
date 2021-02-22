@@ -65,6 +65,7 @@ const particlesOptions = {
 const App = () => {
   const [input, setInput] = useState('');
   const [imageURL, setImageURL] = useState('');
+  const [box, setBox] = useState({});
 
   const onInputChange = (event) => {
     setInput(event.target.value);
@@ -73,18 +74,27 @@ const App = () => {
   const onButtonSubmit = () => {
     setImageURL(input);
     app.models
-      .predict(
-        Clarifai.FACE_DETECT_MODEL,
-        'https://samples.clarifai.com/face-det.jpg'
-      )
-      .then(
-        function (response) {
-          console.log(
-            response.outputs[0].data.regions[0].region_info.bounding_box
-          );
-        },
-        function (error) {}
-      );
+      .predict(Clarifai.FACE_DETECT_MODEL, input)
+      .then((response) => setFaceBox(getFaceBox(response)))
+      .catch((err) => console.log(err));
+  };
+
+  const getFaceBox = (data) => {
+    const border = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputImage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    return {
+      left: border.left_col * width,
+      top: border.top_row * height,
+      right: width - border.right_col * width,
+      bottom: height - border.bottom_row * height,
+    };
+  };
+
+  const setFaceBox = (box) => {
+    setBox(box);
   };
 
   return (
@@ -97,7 +107,7 @@ const App = () => {
         onInputChange={onInputChange}
         onButtonSubmit={onButtonSubmit}
       />
-      <FaceRecognition imageURL={imageURL} />
+      <FaceRecognition box={box} imageURL={imageURL} />
     </div>
   );
 };
