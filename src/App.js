@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import './App.css';
@@ -71,11 +71,11 @@ const App = () => {
   const [route, setRoute] = useState('login');
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  useEffect(() => {
-    fetch('http://localhost:3000/')
-      .then((response) => response.json())
-      .then(console.log);
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:3000/')
+  //     .then((response) => response.json())
+  //     .then(console.log);
+  // }, []);
 
   const onInputChange = (event) => {
     setInput(event.target.value);
