@@ -103,7 +103,26 @@ const App = () => {
 
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, input)
-      .then((response) => setFaceBox(getFaceBox(response)))
+      .then((response) => {
+        if (response) {
+          fetch('http://localhost:3000/entry', {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: user.id }),
+          })
+            .then((response) => response.json())
+            .then((count) => {
+              setUser((prevUser) => {
+                return {
+                  ...prevUser,
+                  entries: count,
+                };
+              });
+            })
+            .catch(console.log);
+        }
+        setFaceBox(getFaceBox(response));
+      })
       .catch((err) => console.log(err));
   };
 
@@ -139,7 +158,7 @@ const App = () => {
       {route === 'home' ? (
         <div>
           <Logo />
-          <Entry />
+          <Entry name={user.name} entries={user.entries} />
           <ImageLinkForm
             onInputChange={onInputChange}
             onButtonSubmit={onButtonSubmit}
@@ -147,7 +166,7 @@ const App = () => {
           <FaceRecognition box={box} imageURL={imageURL} />
         </div>
       ) : route === 'login' ? (
-        <Login onRouteChange={onRouteChange} />
+        <Login onRouteChange={onRouteChange} getUser={getUser} />
       ) : (
         <Register onRouteChange={onRouteChange} getUser={getUser} />
       )}
