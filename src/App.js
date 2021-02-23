@@ -70,6 +70,23 @@ const App = () => {
   const [box, setBox] = useState({});
   const [route, setRoute] = useState('login');
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    createdAt: '',
+  });
+
+  const getUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      createdAt: data.createdAt,
+    });
+  };
 
   // useEffect(() => {
   //   fetch('http://localhost:3000/')
@@ -132,7 +149,7 @@ const App = () => {
       ) : route === 'login' ? (
         <Login onRouteChange={onRouteChange} />
       ) : (
-        <Register onRouteChange={onRouteChange} />
+        <Register onRouteChange={onRouteChange} getUser={getUser} />
       )}
     </div>
   );
