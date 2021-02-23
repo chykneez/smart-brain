@@ -4,11 +4,11 @@ const Login = ({ onRouteChange, getUser }) => {
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
 
-  const onEmailChange = (event) => {
+  const onEmailChange = event => {
     setSignInEmail(event.target.value);
   };
 
-  const onPasswordChange = (event) => {
+  const onPasswordChange = event => {
     setSignInPassword(event.target.value);
   };
 
@@ -18,9 +18,9 @@ const Login = ({ onRouteChange, getUser }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: signInEmail, password: signInPassword }),
     })
-      .then((response) => response.json())
-      .then((user) => {
-        if (user) {
+      .then(response => response.json())
+      .then(user => {
+        if (user.id) {
           getUser(user);
           onRouteChange('home');
         }
