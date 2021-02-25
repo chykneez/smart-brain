@@ -65,7 +65,7 @@ const App = () => {
   };
 
   const onButtonSubmit = () => {
-    // dispatch({ type: 'imageURL', value: input });
+    dispatch({ type: 'imageURL', value: input });
 
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, input)

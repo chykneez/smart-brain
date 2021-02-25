@@ -5,15 +5,15 @@ const Register = ({ onRouteChange, getUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onNameChange = (event) => {
+  const onNameChange = event => {
     setName(event.target.value);
   };
 
-  const onEmailChange = (event) => {
+  const onEmailChange = event => {
     setEmail(event.target.value);
   };
 
-  const onPasswordChange = (event) => {
+  const onPasswordChange = event => {
     setPassword(event.target.value);
   };
 
@@ -23,9 +23,9 @@ const Register = ({ onRouteChange, getUser }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
     })
-      .then((response) => response.json())
-      .then((user) => {
-        if (user) {
+      .then(response => response.json())
+      .then(user => {
+        if (user.id) {
           getUser(user);
           onRouteChange('home');
         }
