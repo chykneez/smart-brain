@@ -48,3 +48,12 @@ export const particlesOptions = {
     },
   },
 };
+
+export const initialState = {
+  imgLinkInput: '',
+  imageUrl: '',
+  box: '',
+  route: 'signin',
+  isSignedIn: false,
+  user: { id: '', name: '', email: '', entries: 0, createdAt: '' },
+};

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import './App.css';
@@ -14,19 +14,40 @@ import { particlesOptions } from './constants';
 
 const app = new Clarifai.App({ apiKey: '39f6a75609484f5da7c5bc7860d4ae48' });
 
+const initialAppState = {
+  input: '',
+  imageURL: '',
+  box: '',
+  route: 'signin',
+  isSignedIn: false,
+};
+
+const initialUserState = {
+  id: '',
+  name: '',
+  email: '',
+  entries: 0,
+  createdAt: '',
+};
+
+const reducer = (appState, action) => {
+  switch (action.type) {
+    case 'resetAppState':
+      return initialAppState;
+    case 'resetUserState':
+      return initialUserState;
+    default:
+      const result = { ...appState };
+      result[action.type] = action.value;
+
+      return result;
+  }
+};
+
 const App = () => {
-  const [input, setInput] = useState('');
-  const [imageURL, setImageURL] = useState('');
-  const [box, setBox] = useState({});
-  const [route, setRoute] = useState('login');
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [user, setUser] = useState({
-    id: '',
-    name: '',
-    email: '',
-    entries: 0,
-    createdAt: '',
-  });
+  const [appState, dispatch] = useReducer(reducer, initialAppState);
+  const { input, imageURL, box, route, isSignedIn } = appState;
+  const [user, setUser] = useState(initialUserState);
 
   const getUser = data => {
     setUser({
@@ -39,11 +60,12 @@ const App = () => {
   };
 
   const onInputChange = event => {
-    setInput(event.target.value);
+    const { name, value } = event.target;
+    dispatch({ type: name, value });
   };
 
   const onButtonSubmit = () => {
-    setImageURL(input);
+    // dispatch({ type: 'imageURL', value: input });
 
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, input)
@@ -65,7 +87,7 @@ const App = () => {
             })
             .catch(console.log);
         }
-        setFaceBox(getFaceBox(response));
+        setFaceBox(getFaceBox(response), dispatch);
       })
       .catch(err => console.log(err));
   };
@@ -84,14 +106,17 @@ const App = () => {
     };
   };
 
-  const setFaceBox = box => {
-    setBox(box);
+  const setFaceBox = (box, dispatch) => {
+    dispatch({ type: 'box', value: box });
   };
 
   const onRouteChange = route => {
-    if (route === 'home') setIsSignedIn(true);
-    else if (route === 'login' || route === 'register') setIsSignedIn(false);
-    setRoute(route);
+    if (route === 'home') dispatch({ type: 'isSignedIn', value: true });
+    else if (route === 'login' || route === 'register') {
+      dispatch({ type: 'resetUserState' });
+      dispatch({ type: 'resetAppState' });
+    }
+    dispatch({ type: 'route', value: route });
   };
 
   return (
