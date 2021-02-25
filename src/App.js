@@ -1,6 +1,5 @@
 import React, { useState, useReducer } from 'react';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
 import './App.css';
 
 import Navigation from './Components/Navigation/Navigation';
@@ -11,8 +10,6 @@ import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import { particlesOptions } from './constants';
-
-const app = new Clarifai.App({ apiKey: '39f6a75609484f5da7c5bc7860d4ae48' });
 
 const initialAppState = {
   input: '',
@@ -60,15 +57,20 @@ const App = () => {
   };
 
   const onInputChange = event => {
-    const { name, value } = event.target;
-    dispatch({ type: name, value });
+    const { value } = event.target;
+    console.log(event.target);
+    dispatch({ type: 'input', value });
   };
 
   const onButtonSubmit = () => {
     dispatch({ type: 'imageURL', value: input });
 
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, input)
+    fetch('http://localhost:3000/imageURL', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input }),
+    })
+      .then(response => response.json())
       .then(response => {
         if (response) {
           fetch('http://localhost:3000/entry', {
@@ -106,8 +108,8 @@ const App = () => {
     };
   };
 
-  const setFaceBox = (box, dispatch) => {
-    dispatch({ type: 'box', value: box });
+  const setFaceBox = (boxBorder, dispatch) => {
+    dispatch({ type: 'box', value: boxBorder });
   };
 
   const onRouteChange = route => {
