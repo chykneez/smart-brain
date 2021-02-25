@@ -58,14 +58,13 @@ const App = () => {
 
   const onInputChange = event => {
     const { value } = event.target;
-    console.log(event.target);
     dispatch({ type: 'input', value });
   };
 
   const onButtonSubmit = () => {
     dispatch({ type: 'imageURL', value: input });
 
-    fetch('http://localhost:3000/imageURL', {
+    fetch('https://ancient-everglades-62319.herokuapp.com/imageURL', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ input }),
@@ -73,7 +72,7 @@ const App = () => {
       .then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('http://localhost:3000/entry', {
+          fetch('https://ancient-everglades-62319.herokuapp.com/entry', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: user.id }),

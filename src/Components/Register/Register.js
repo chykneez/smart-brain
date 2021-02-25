@@ -18,7 +18,7 @@ const Register = ({ onRouteChange, getUser }) => {
   };
 
   const onRegister = () => {
-    fetch('http://localhost:3000/register', {
+    fetch('https://ancient-everglades-62319.herokuapp.com/register', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
