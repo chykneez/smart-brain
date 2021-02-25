@@ -10,59 +10,9 @@ import Entry from './Components/Entry/Entry';
 import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
+import { particlesOptions } from './constants';
 
 const app = new Clarifai.App({ apiKey: '39f6a75609484f5da7c5bc7860d4ae48' });
-
-const particlesOptions = {
-  particles: {
-    number: {
-      value: 150,
-      density: {
-        enable: true,
-        value_area: 800,
-      },
-    },
-    shape: {
-      type: 'circle',
-      stroke: {
-        width: 0,
-        color: '#000000',
-      },
-      polygon: {
-        nb_sides: 5,
-      },
-    },
-    color: {
-      value: '#ffffff',
-    },
-    opacity: {
-      value: 1,
-      random: false,
-      anim: {
-        enable: false,
-        speed: 1,
-        opacity_min: 1,
-        sync: true,
-      },
-    },
-  },
-  interactivity: {
-    detect_on: 'window',
-    events: {
-      onhover: {
-        enable: true,
-        mode: 'repulse',
-      },
-      resize: true,
-    },
-    modes: {
-      repulse: {
-        distance: 100,
-        duration: 0.4,
-      },
-    },
-  },
-};
 
 const App = () => {
   const [input, setInput] = useState('');
@@ -78,7 +28,7 @@ const App = () => {
     createdAt: '',
   });
 
-  const getUser = (data) => {
+  const getUser = data => {
     setUser({
       id: data.id,
       name: data.name,
@@ -88,13 +38,7 @@ const App = () => {
     });
   };
 
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/')
-  //     .then((response) => response.json())
-  //     .then(console.log);
-  // }, []);
-
-  const onInputChange = (event) => {
+  const onInputChange = event => {
     setInput(event.target.value);
   };
 
@@ -103,16 +47,16 @@ const App = () => {
 
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, input)
-      .then((response) => {
+      .then(response => {
         if (response) {
           fetch('http://localhost:3000/entry', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: user.id }),
           })
-            .then((response) => response.json())
-            .then((count) => {
-              setUser((prevUser) => {
+            .then(response => response.json())
+            .then(count => {
+              setUser(prevUser => {
                 return {
                   ...prevUser,
                   entries: count,
@@ -123,10 +67,10 @@ const App = () => {
         }
         setFaceBox(getFaceBox(response));
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   };
 
-  const getFaceBox = (data) => {
+  const getFaceBox = data => {
     const border = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
@@ -140,11 +84,11 @@ const App = () => {
     };
   };
 
-  const setFaceBox = (box) => {
+  const setFaceBox = box => {
     setBox(box);
   };
 
-  const onRouteChange = (route) => {
+  const onRouteChange = route => {
     if (route === 'home') setIsSignedIn(true);
     else if (route === 'login' || route === 'register') setIsSignedIn(false);
     setRoute(route);
