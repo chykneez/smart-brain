@@ -9,23 +9,12 @@ import Entry from './Components/Entry/Entry';
 import FaceRecognition from './Components/FaceRecognition/FaceRecognition';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
-import { particlesOptions } from './constants';
 
-const initialAppState = {
-  input: '',
-  imageURL: '',
-  box: '',
-  route: 'signin',
-  isSignedIn: false,
-};
-
-const initialUserState = {
-  id: '',
-  name: '',
-  email: '',
-  entries: 0,
-  createdAt: '',
-};
+import {
+  particlesOptions,
+  initialAppState,
+  initialUserState,
+} from './constants';
 
 const reducer = (appState, action) => {
   switch (action.type) {

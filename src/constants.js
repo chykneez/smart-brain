@@ -49,11 +49,18 @@ export const particlesOptions = {
   },
 };
 
-export const initialState = {
-  imgLinkInput: '',
-  imageUrl: '',
+export const initialAppState = {
+  input: '',
+  imageURL: '',
   box: '',
   route: 'signin',
   isSignedIn: false,
-  user: { id: '', name: '', email: '', entries: 0, createdAt: '' },
+};
+
+export const initialUserState = {
+  id: '',
+  name: '',
+  email: '',
+  entries: 0,
+  createdAt: '',
 };
