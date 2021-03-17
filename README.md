@@ -1,7 +1,9 @@
 # Smart Brain
 
-Smart Brain is a full stack web application that uses the Clarifai API to locate faces within pictures provided by the user via URL.  
+Smart Brain is a full stack web application that uses the Clarifai API to detect faces within pictures.  
+  
 This project was built with React, Node.js, Express and PostgreSQL as the main stack.  
+  
 You can check it out here:  [https://smart-brain.com](https://patrick-smart-brain.herokuapp.com/)
 
 ## How to use:
